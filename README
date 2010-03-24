@@ -1,0 +1,7 @@
+This is a very simple bridge between svm and Java.  svm already has
+Java libraries, but they can be complex enough to use that it's
+easier to just use the command line versions.  This bridge creates
+the intermediate files that would be created by the command line
+versions (for inspection), but also goes on to run the next command.
+
+Questions/comments to rachel@gollub.net .
