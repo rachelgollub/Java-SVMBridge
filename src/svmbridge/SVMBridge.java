@@ -188,7 +188,7 @@ public class SVMBridge {
         }
         p.flush();
         p.close();
-        svm_model model = svm.svm_train(prob, param);
+        svm_model model = svm.svm_train(sub, param);
         svm.svm_save_model(trainingfile + ".model" + i, model);   
         accuracy += predict(trainingfile + ".train" + i, trainingfile + ".model" + i);
       }
@@ -273,8 +273,23 @@ public class SVMBridge {
   }
 
   /**
-   * Sets standard parameters
-   * 
+   * Sets the standard parameters: <ul>
+   * <li> svm_type = C_SVC
+   * <li> kernel_type = LINEAR
+   * <li> degree = 3
+   * <li> gamma = 0
+   * <li> coef0 = 0
+   * <li> C = 1
+   * <li> nu = .5
+   * <li> eps = .001
+   * <li> p = .1
+   * <li> cache_size = 100
+   * <li> probability = 1
+   * <li> shrinking = 0
+   * <li> nr_weight = 0
+   * <li> weight_label = []
+   * <li> weight = []
+   * </ul>
    * @return
    */
   public static svm_parameter setParams() {
