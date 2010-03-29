@@ -26,7 +26,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_svm_type(svm_parameter param, int val) {
+  public static svm_parameter set_svm_type(svm_parameter param, int val) {
     param.svm_type = val;
     return param;
   }
@@ -44,7 +44,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_kernel_type(svm_parameter param, int val) {
+  public static svm_parameter set_kernel_type(svm_parameter param, int val) {
     param.kernel_type = val;
     return param;
   }
@@ -56,7 +56,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_degree(svm_parameter param, int val) {
+  public static svm_parameter set_degree(svm_parameter param, int val) {
     param.degree = val;
     return param;
   }
@@ -68,7 +68,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_gamma(svm_parameter param, double val) {
+  public static svm_parameter set_gamma(svm_parameter param, double val) {
     param.gamma = val;
     return param;
   }
@@ -79,7 +79,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_coef0(svm_parameter param, double val) {
+  public static svm_parameter set_coef0(svm_parameter param, double val) {
     param.coef0 = val;
     return param;
   }
@@ -92,7 +92,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_C(svm_parameter param, double val) {
+  public static svm_parameter set_C(svm_parameter param, double val) {
     param.C = val;
     return param;
   }
@@ -104,7 +104,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_nu(svm_parameter param, double val) {
+  public static svm_parameter set_nu(svm_parameter param, double val) {
     param.nu = val;
     return param;
   }
@@ -116,7 +116,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_eps(svm_parameter param, double val) {
+  public static svm_parameter set_eps(svm_parameter param, double val) {
     param.eps = val;
     return param;
   }
@@ -127,7 +127,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_p(svm_parameter param, double val) {
+  public static svm_parameter set_p(svm_parameter param, double val) {
     param.p = val;
     return param;
   }
@@ -139,7 +139,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_cache_size(svm_parameter param, double val) {
+  public static svm_parameter set_cache_size(svm_parameter param, double val) {
     param.cache_size = val;
     return param;
   }
@@ -151,7 +151,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_probability(svm_parameter param, int val) {
+  public static svm_parameter set_probability(svm_parameter param, int val) {
     param.probability = val;
     return param;
   }
@@ -163,7 +163,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_shrinking(svm_parameter param, int val) {
+  public static svm_parameter set_shrinking(svm_parameter param, int val) {
     param.shrinking = val;
     return param;
   }
@@ -175,7 +175,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_nr_weight(svm_parameter param, int val) {
+  public static svm_parameter set_nr_weight(svm_parameter param, int val) {
     param.nr_weight = val;
     return param;
   }
@@ -187,7 +187,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_weight_label(svm_parameter param, int[] val) {
+  public static svm_parameter set_weight_label(svm_parameter param, int[] val) {
     param.weight_label = val;
     return param;
   }
@@ -199,7 +199,7 @@ public class SVMParam {
    * @param val
    * @return
    */
-  static svm_parameter set_weight(svm_parameter param, double[] val) {
+  public static svm_parameter set_weight(svm_parameter param, double[] val) {
     param.weight = val;
     return param;
   }
