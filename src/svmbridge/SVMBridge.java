@@ -155,6 +155,97 @@ public class SVMBridge {
       }
     }
   }
+  
+  /**
+   * Mostly copied from the Java version of svm_predict.  Takes a datafile
+   * (with or without labels) and a model file, and writes to
+   * [datafile].predict with the prediction results.  Probability estimates
+   * are turned on, so the model file has to have been generated with them on.
+   * 
+   * @param datafile
+   * @param modelfile
+   */
+  public static double inmemPredict(String data, String modelfile) {
+    try {
+      int predict_probability = 1;
+      svm_model model = svm.svm_load_model(modelfile);
+
+      int correct = 0;
+      int total = 0;
+      double error = 0;
+      double sumv = 0, sumy = 0, sumvv = 0, sumyy = 0, sumvy = 0;
+
+      int svm_type = svm.svm_get_svm_type(model);
+      int nr_class = svm.svm_get_nr_class(model);
+      double[] prob_estimates = null;
+
+      if (predict_probability == 1) {
+        if (svm_type == svm_parameter.EPSILON_SVR
+            || svm_type == svm_parameter.NU_SVR) {
+          System.out.print("Prob. model for test data: target value = "
+              + "predicted value + z,\nz: Laplace distribution e^(-|z|/sigma)"
+              + "/(2sigma),sigma=" + svm.svm_get_svr_probability(model) + "\n");
+        } else {
+          int[] labels = new int[nr_class];
+          svm.svm_get_labels(model, labels);
+          prob_estimates = new double[nr_class];
+        }
+      }
+      for (String line : data.split("\\n")) {
+        
+        StringTokenizer st = new StringTokenizer(line, " \t\n\r\f:");
+
+        double target = 1.0;
+        if (st.countTokens() % 2 == 1) {
+          target = Double.parseDouble(st.nextToken());
+        }
+        int m = st.countTokens() / 2;
+        svm_node[] x = new svm_node[m];
+        for (int j = 0; j < m; j++) {
+          x[j] = new svm_node();
+          x[j].index = Integer.parseInt(st.nextToken());
+          x[j].value = Double.parseDouble(st.nextToken());
+        }
+
+        double v;
+        if (predict_probability == 1
+            && (svm_type == svm_parameter.C_SVC || svm_type == svm_parameter.NU_SVC)) {
+          v = svm.svm_predict_probability(model, x, prob_estimates);
+          //for (int j = 0; j < nr_class; j++) {
+          //  System.out.println("Probability " + j + ": " + prob_estimates[j]);
+          //}
+        } else {
+          v = svm.svm_predict(model, x);
+        }
+
+        if (v == target)
+          ++correct;
+        error += (v - target) * (v - target);
+        sumv += v;
+        sumy += target;
+        sumvv += v * v;
+        sumyy += target * target;
+        sumvy += v * target;
+        ++total;
+      }
+      if (svm_type == svm_parameter.EPSILON_SVR
+          || svm_type == svm_parameter.NU_SVR) {
+        System.out.print("Mean squared error = " + error / total
+            + " (regression)\n");
+        System.out.print("Squared correlation coefficient = "
+            + ((total * sumvy - sumv * sumy) * (total * sumvy - sumv * sumy))
+            / ((total * sumvv - sumv * sumv) * (total * sumyy - sumy * sumy))
+            + " (regression)\n");
+      } else {
+        System.out.print("Accuracy = " + (double) correct / total * 100 + "% ("
+            + correct + "/" + total + ") (classification)\n");
+      }
+      return ((double) correct/total * 100.0);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return 0.0;
+    }
+  }
 
   public static void crossValidate(String trainingfile, svm_parameter param) {
     PrintWriter p = null;
