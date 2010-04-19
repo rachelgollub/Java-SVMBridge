@@ -157,6 +157,23 @@ public class SVMBridge {
   }
   
   /**
+   * Just load the model file into memory.
+   * 
+   * @param modelfile
+   * @return
+   */
+  public static svm_model loadModel(String modelfile) {
+    try {
+      svm_model model = svm.svm_load_model(modelfile);
+      return model;
+    } catch (Exception e) {
+      System.out.println("Model file " + modelfile + " is missing or malformed.");
+      e.printStackTrace();
+      return null;
+    }
+  }
+  
+  /**
    * Mostly copied from the Java version of svm_predict.  Takes a datafile
    * (with or without labels) and a model file, and writes to
    * [datafile].predict with the prediction results.  Probability estimates
@@ -167,8 +184,18 @@ public class SVMBridge {
    */
   public static double inmemPredict(String data, String modelfile) {
     try {
-      int predict_probability = 1;
       svm_model model = svm.svm_load_model(modelfile);
+      return inmemPredict(data, model);
+    } catch (Exception e) {
+      System.out.println("Model file " + modelfile + " is missing or malformed.");
+      e.printStackTrace();
+      return 0.0;
+    }
+  }
+      
+  public static double inmemPredict(String data, svm_model model) {
+    try {
+      int predict_probability = 1;
 
       int correct = 0;
       int total = 0;
@@ -313,7 +340,7 @@ public class SVMBridge {
         }
       }
       reader.close();
-      int num = (int) Math.round((end - start)/interval);
+      int num = (int) Math.round((end - start)/interval) + 1;
       double[] precision = new double[num];
       double[] recall = new double[num];
       int ind = 0;
@@ -339,8 +366,11 @@ public class SVMBridge {
         } else if (tp + fn == 0) {
           fn = 1;
         }
-        precision[ind] = (tp * 1.0) / (tp + fp);
-        recall[ind] = (tp * 1.0) / (tp + fn);
+	try {
+          precision[ind] = (tp * 1.0) / (tp + fp);
+          recall[ind] = (tp * 1.0) / (tp + fn);
+	} catch (Exception e) {
+	}
         ind++;
       }
       p = new PrintWriter(new FileWriter(predictfile + ".pr"));
