@@ -267,7 +267,7 @@ public class SVMBridge {
         System.out.print("Accuracy = " + (double) correct / total * 100 + "% ("
             + correct + "/" + total + ") (classification)\n");
       }
-      return ((double) correct/total * 100.0);
+      return sumv;
     } catch (Exception e) {
       e.printStackTrace();
       return 0.0;
